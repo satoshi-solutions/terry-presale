@@ -42,7 +42,8 @@ const Presale = () => {
     useEffect(() => {
         if (currentCap)
             console.log('currentCap', currentCap.toString());
-        console.log('hardCap', hardCap.toString());
+        if (hardCap)
+            console.log('hardCap', hardCap.toString());
     }, [currentCap, hardCap]); // Only run when values change
 
 
