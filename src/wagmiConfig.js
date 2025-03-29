@@ -8,7 +8,7 @@ export const config = createConfig({
   chains: [mainnet, bscTestnet], // Add the chains you want to support
   transports: {
     [mainnet.id]: http(),
-    [bscTestnet.id]: http("https://data-seed-prebsc-1-s1.binance.org:8545/"),
+    [bscTestnet.id]: http('https://burned-still-star.bsc-testnet.quiknode.pro/8ff3e46faf841c0a62f4deb77dcf0fecb6f75357'),
   },
   connectors: [
     walletConnect({

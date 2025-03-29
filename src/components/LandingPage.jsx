@@ -316,9 +316,9 @@ const LandingPage = () => {
                 <section id="earning-income" className="py-20 bg-white">
                     <div className="container mx-auto flex flex-col-reverse custom:flex-row gap-[70px] items-center justify-between">
                         {/* Left - Text Content */}
-                        <div className="text-center md:text-start">
+                        <div className="text-center custom:text-start">
                             {/* Decorative Element */}
-                            <div className="flex justify-center md:justify-start mb-2">
+                            <div className="flex justify-center custom:justify-start mb-2">
                                 <img
                                     src="/images/decoration.png" // Replace with actual path
                                     alt="Decorative Element"
