@@ -59,25 +59,7 @@ const LandingPage = () => {
         watch: true, // Enable real-time updates
         // chainId: 56, // Uncomment and set to BSC mainnet chain ID if needed
         // chainId: 97, // BSCTestnet chain ID
-    });
-
-    const { data: currentCap, isLoading: currentCapLoading, refetch: refetchCurrentCap } = useReadContract({
-        abi: PRESALE_ABI_CAP,
-        address: PRESALE_CONTRACT,
-        functionName: "currentCap",
-        enabled: true, // Allow fetching even without a connected wallet
-    });
-
-    const { data: hardCap, isLoading: hardCapLoading, refetch: refetchHardCap } = useReadContract({
-        abi: PRESALE_ABI_CAP,
-        address: PRESALE_CONTRACT,
-        functionName: "hardCap",
-        enabled: true, // Allow fetching even without a connected wallet
-    });
-
-    const progress = currentCap && hardCap && hardCap > 0
-        ? Math.min((Number(currentCap) / Number(hardCap)) * 100, 100) // Cap at 100%
-        : 0;
+    })
 
     function CustomAlert({ message, type, onClose }) {
         useEffect(() => {
@@ -260,6 +242,22 @@ const LandingPage = () => {
             window.removeEventListener('scroll', handleScroll);
         };
     }, []);
+
+    const { data: currentCap, isLoading: currentCapLoading } = useReadContract({
+        abi: PRESALE_ABI_CAP,
+        address: PRESALE_CONTRACT,
+        functionName: "currentCap",
+    });
+
+    const { data: hardCap, isLoading: hardCapLoading } = useReadContract({
+        abi: PRESALE_ABI_CAP,
+        address: PRESALE_CONTRACT,
+        functionName: "hardCap",
+    });
+
+    const progress = currentCap && hardCap && hardCap > 0
+        ? Math.min((Number(currentCap) / Number(hardCap)) * 100, 100) 
+        : 0;
 
     return (
         <div>
