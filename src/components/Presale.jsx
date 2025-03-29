@@ -39,14 +39,6 @@ const Presale = () => {
         ? Math.min(Number(currentCap * 100n / hardCap), 100) // Convert safely
         : 0;
 
-    useEffect(() => {
-        if (currentCap)
-            console.log('currentCap', currentCap.toString());
-        if (hardCap)
-            console.log('hardCap', hardCap.toString());
-    }, [currentCap, hardCap]); // Only run when values change
-
-
     return (
 
         <section id="presale" className="py-20 bg-white text-center">
