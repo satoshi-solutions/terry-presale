@@ -1,5 +1,6 @@
 import { useReadContract } from "wagmi";
 import ProgressBar from "./Progress";
+import { useEffect } from "react";
 
 const PRESALE_CONTRACT = "0x93A16C6F9486f73ca9e3888e91CaA09C0687e1e9";
 
@@ -34,14 +35,26 @@ const Presale = () => {
         functionName: "hardCap",
     });
 
-    const progress = currentCap && hardCap && hardCap > 0
-        ? Math.min((BigInt(currentCap) * 100n) / BigInt(hardCap), 100n).toString()
-        : "0";
+    const progress = currentCap && hardCap && hardCap > 0n
+        ? Math.min(Number(currentCap * 100n / hardCap), 100) // Convert safely
+        : 0;
+
+    useEffect(() => {
+        if (currentCap && hardCap) {
+            console.log('currentCap', currentCap.toString());
+            console.log('hardCap', hardCap.toString());
+        }
+    }, [currentCap, hardCap]); // Only run when values change
+
 
     return (
 
         <section id="presale" className="py-20 bg-white text-center">
             <div className="flex flex-col gap-[70px] mx-auto ">
+
+                {currentCapError && <p className="text-red-500">Error fetching currentCap: {currentCapError.message}</p>}
+                {hardCapError && <p className="text-red-500">Error fetching hardCap: {hardCapError.message}</p>}
+
 
                 {/* ICO Chart & Details Section */}
                 <div className="flex flex-col custom:flex-row items-center bg-[#ffffff80] rounded-[40px] gap-[70px] justify-between py-16 px-10 shadow-2xl">
@@ -75,11 +88,11 @@ const Presale = () => {
                             <p className="text-gray-700 mt-2">
                                 Tokens Sold:{" "}
                                 <span className="font-bold">
-                                {currentCapLoading || !currentCap
-                                    ? "Loading..."
-                                    : (BigInt(currentCap) / 1_000_000_000_000_000_000n).toLocaleString()}{" "}
-                                / {(hardCap ? (BigInt(hardCap) / 1_000_000_000_000_000_000n).toLocaleString() : "0")} IVAC
-                            </span>
+                                    {currentCapLoading || !currentCap
+                                        ? "Loading..."
+                                        : (BigInt(currentCap) / 1_000_000_000_000_000_000n).toLocaleString()}{" "}
+                                    / {(hardCap ? (BigInt(hardCap) / 1_000_000_000_000_000_000n).toLocaleString() : "0")} IVAC
+                                </span>
                             </p>
                         </div>
 
