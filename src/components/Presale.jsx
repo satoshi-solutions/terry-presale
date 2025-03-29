@@ -2,7 +2,7 @@ import { useReadContract } from "wagmi";
 import ProgressBar from "./Progress";
 import { useEffect } from "react";
 
-const PRESALE_CONTRACT = "0x93A16C6F9486f73ca9e3888e91CaA09C0687e1e9";
+const PRESALE_CONTRACT = "0x6982460E0F2da632f2cd446D61106E844bbCc45e";
 
 const PRESALE_ABI_CAP = [
     {
@@ -40,10 +40,8 @@ const Presale = () => {
         : 0;
 
     useEffect(() => {
-        if (currentCap && hardCap) {
-            console.log('currentCap', currentCap.toString());
-            console.log('hardCap', hardCap.toString());
-        }
+        console.log('currentCap', currentCap.toString());
+        console.log('hardCap', hardCap.toString());
     }, [currentCap, hardCap]); // Only run when values change
 
 
@@ -88,7 +86,7 @@ const Presale = () => {
                             <p className="text-gray-700 mt-2">
                                 Tokens Sold:{" "}
                                 <span className="font-bold">
-                                    {currentCapLoading || !currentCap
+                                    {currentCapLoading 
                                         ? "Loading..."
                                         : (BigInt(currentCap) / 1_000_000_000_000_000_000n).toLocaleString()}{" "}
                                     / {(hardCap ? (BigInt(hardCap) / 1_000_000_000_000_000_000n).toLocaleString() : "0")} IVAC

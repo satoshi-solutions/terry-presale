@@ -17,7 +17,7 @@ const PRESALE_ABI = [
     }
 ]
 
-const PRESALE_CONTRACT = "0x93A16C6F9486f73ca9e3888e91CaA09C0687e1e9";
+const PRESALE_CONTRACT = "0x6982460E0F2da632f2cd446D61106E844bbCc45e";
 
 const LandingPage = () => {
 
