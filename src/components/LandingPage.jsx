@@ -5,7 +5,7 @@ import Header from './Header';
 import { Link } from "react-scroll";
 import Footer from './Footer';
 import { useAccount, useConnect, useWriteContract, useSimulateContract, useReadContract, useBalance } from 'wagmi';
-import ProgressBar from "./Progress";
+import Presale from './Presale';
 
 const PRESALE_ABI = [
     {
@@ -16,23 +16,6 @@ const PRESALE_ABI = [
         type: "function"
     }
 ]
-
-const PRESALE_ABI_CAP = [
-    {
-        inputs: [],
-        name: "currentCap",
-        outputs: [{ name: "", type: "uint256" }],
-        stateMutability: "view",
-        type: "function",
-    },
-    {
-        inputs: [],
-        name: "hardCap",
-        outputs: [{ name: "", type: "uint256" }],
-        stateMutability: "view",
-        type: "function",
-    },
-];
 
 const PRESALE_CONTRACT = "0x93A16C6F9486f73ca9e3888e91CaA09C0687e1e9";
 
