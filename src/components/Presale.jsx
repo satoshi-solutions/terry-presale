@@ -80,7 +80,7 @@ const Presale = () => {
                             <p className="text-gray-700 mt-2">
                                 Tokens Sold:{" "}
                                 <span className="font-bold">
-                                    {currentCapLoading
+                                    {currentCapLoading || !currentCap
                                         ? "Loading..."
                                         : (BigInt(currentCap) / 1_000_000_000_000_000_000n).toLocaleString()}{" "}
                                     / {(hardCap ? (BigInt(hardCap) / 1_000_000_000_000_000_000n).toLocaleString() : "0")} IVAC
