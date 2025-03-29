@@ -443,7 +443,9 @@ const LandingPage = () => {
                                     <p className="text-gray-700 mt-2">
                                         Tokens Sold:{" "}
                                         <span className="font-bold">
-                                            {(Number(currentCap) / 1e18).toLocaleString()}{" "}
+                                            {currentCapLoading || !currentCap
+                                                ? "Loading..."
+                                                : (Number(currentCap) / 1e18).toLocaleString()}{" "}
                                             / {(hardCap ? Number(hardCap) / 1e18 : 0).toLocaleString()} IVAC
                                         </span>
                                     </p>
