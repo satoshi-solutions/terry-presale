@@ -40,7 +40,8 @@ const Presale = () => {
         : 0;
 
     useEffect(() => {
-        console.log('currentCap', currentCap.toString());
+        if (currentCap)
+            console.log('currentCap', currentCap.toString());
         console.log('hardCap', hardCap.toString());
     }, [currentCap, hardCap]); // Only run when values change
 
@@ -86,7 +87,7 @@ const Presale = () => {
                             <p className="text-gray-700 mt-2">
                                 Tokens Sold:{" "}
                                 <span className="font-bold">
-                                    {currentCapLoading 
+                                    {currentCapLoading
                                         ? "Loading..."
                                         : (BigInt(currentCap) / 1_000_000_000_000_000_000n).toLocaleString()}{" "}
                                     / {(hardCap ? (BigInt(hardCap) / 1_000_000_000_000_000_000n).toLocaleString() : "0")} IVAC
