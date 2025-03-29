@@ -4,7 +4,7 @@ import { ChevronDownIcon } from '@heroicons/react/24/outline';
 import Header from './Header';
 import { Link } from "react-scroll";
 import Footer from './Footer';
-import { useAccount, useConnect, useWriteContract, useSimulateContract, useReadContract, useBalance } from 'wagmi';
+import { useAccount, useConnect, useWriteContract, useSimulateContract, useBalance } from 'wagmi';
 import Presale from './Presale';
 
 const PRESALE_ABI = [

@@ -3,7 +3,7 @@ import ProgressBar from "./Progress";
 
 const PRESALE_CONTRACT = "0x93A16C6F9486f73ca9e3888e91CaA09C0687e1e9";
 
-const PRESALE_ABI_CAP = [
+const PRESALE_ABI = [
     {
         inputs: [],
         name: "currentCap",
@@ -23,13 +23,13 @@ const PRESALE_ABI_CAP = [
 const Presale = () => {
 
     const { data: currentCap, isLoading: currentCapLoading } = useReadContract({
-        abi: PRESALE_ABI_CAP,
+        abi: PRESALE_ABI,
         address: PRESALE_CONTRACT,
         functionName: "currentCap",
     });
 
     const { data: hardCap, isLoading: hardCapLoading } = useReadContract({
-        abi: PRESALE_ABI_CAP,
+        abi: PRESALE_ABI,
         address: PRESALE_CONTRACT,
         functionName: "hardCap",
     });
