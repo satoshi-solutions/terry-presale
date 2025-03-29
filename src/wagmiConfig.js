@@ -8,7 +8,7 @@ export const config = createConfig({
   chains: [mainnet, bscTestnet], // Add the chains you want to support
   transports: {
     [mainnet.id]: http(),
-    [bscTestnet.id]: http(),
+    [bscTestnet.id]: http("https://bsc-testnet.publicnode.com"),
   },
   connectors: [
     walletConnect({
