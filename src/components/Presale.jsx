@@ -22,21 +22,21 @@ const PRESALE_ABI_CAP = [
 
 const Presale = () => {
 
-    const { data: currentCap, isLoading: currentCapLoading } = useReadContract({
+    const { data: currentCap, isLoading: currentCapLoading, error: currentCapError } = useReadContract({
         abi: PRESALE_ABI_CAP,
         address: PRESALE_CONTRACT,
         functionName: "currentCap",
     });
 
-    const { data: hardCap, isLoading: hardCapLoading } = useReadContract({
+    const { data: hardCap, isLoading: hardCapLoading, error: hardCapError } = useReadContract({
         abi: PRESALE_ABI_CAP,
         address: PRESALE_CONTRACT,
         functionName: "hardCap",
     });
 
     const progress = currentCap && hardCap && hardCap > 0
-        ? Math.min((Number(currentCap) / Number(hardCap)) * 100, 100)
-        : 0;
+        ? Math.min((BigInt(currentCap) * 100n) / BigInt(hardCap), 100n).toString()
+        : "0";
 
     return (
 
@@ -75,11 +75,11 @@ const Presale = () => {
                             <p className="text-gray-700 mt-2">
                                 Tokens Sold:{" "}
                                 <span className="font-bold">
-                                    {currentCapLoading || !currentCap
-                                        ? "Loading..."
-                                        : (Number(currentCap) / 1e18).toLocaleString()}{" "}
-                                    / {(hardCap ? Number(hardCap) / 1e18 : 0).toLocaleString()} IVAC
-                                </span>
+                                {currentCapLoading || !currentCap
+                                    ? "Loading..."
+                                    : (BigInt(currentCap) / 1_000_000_000_000_000_000n).toLocaleString()}{" "}
+                                / {(hardCap ? (BigInt(hardCap) / 1_000_000_000_000_000_000n).toLocaleString() : "0")} IVAC
+                            </span>
                             </p>
                         </div>
 

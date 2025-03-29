@@ -91,10 +91,6 @@ const LandingPage = () => {
     const handleBuy = () => {
         console.log("address", address);
         console.log("balanceData", balanceData);
-        if (!isConnected) {
-            setAlert({ message: "Please connect your wallet!", type: "error" });
-            return;
-        }
         if (!balanceData || balanceLoading) {
             setAlert({ message: "Fetching balance, please wait...", type: "error" });
             return;
