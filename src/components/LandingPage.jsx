@@ -61,16 +61,18 @@ const LandingPage = () => {
         // chainId: 97, // BSCTestnet chain ID
     });
 
-    const { data: currentCap, isLoading: currentCapLoading } = useReadContract({
+    const { data: currentCap, isLoading: currentCapLoading, refetch: refetchCurrentCap } = useReadContract({
         abi: PRESALE_ABI_CAP,
         address: PRESALE_CONTRACT,
         functionName: "currentCap",
+        enabled: true, // Allow fetching even without a connected wallet
     });
 
-    const { data: hardCap, isLoading: hardCapLoading } = useReadContract({
+    const { data: hardCap, isLoading: hardCapLoading, refetch: refetchHardCap } = useReadContract({
         abi: PRESALE_ABI_CAP,
         address: PRESALE_CONTRACT,
         functionName: "hardCap",
+        enabled: true, // Allow fetching even without a connected wallet
     });
 
     const progress = currentCap && hardCap && hardCap > 0
