@@ -1,49 +1,76 @@
-import { useReadContract } from "wagmi";
+import { useState, useEffect } from "react";
+import { useAccount } from "wagmi";
 import ProgressBar from "./Progress";
+import ABI from "./abi.json";
+import Web3 from "web3";
 
 const PRESALE_CONTRACT = "0x93A16C6F9486f73ca9e3888e91CaA09C0687e1e9";
 
-const PRESALE_ABI = [
-    {
-        inputs: [],
-        name: "currentCap",
-        outputs: [{ name: "", type: "uint256" }],
-        stateMutability: "view",
-        type: "function",
-    },
-    {
-        inputs: [],
-        name: "hardCap",
-        outputs: [{ name: "", type: "uint256" }],
-        stateMutability: "view",
-        type: "function",
-    },
-];
-
 const Presale = () => {
+    const [currentCap, setCurrentCap] = useState(null);
+    const [hardCap, setHardCap] = useState(null);
+    const [contract, setContract] = useState(null);
+    const [error, setError] = useState(null);
 
-    const { data: currentCap, isLoading: currentCapLoading } = useReadContract({
-        abi: PRESALE_ABI,
-        address: PRESALE_CONTRACT,
-        functionName: "currentCap",
-    });
+    useEffect(() => {
+        // Initialize Web3 with BSC testnet RPC
+        const web3 = new Web3("https://data-seed-prebsc-1-s1.binance.org:8545/");
+        const contractInstance = new web3.eth.Contract(ABI, PRESALE_CONTRACT);
+        
+        // Verify contract exists
+        web3.eth.getCode(PRESALE_CONTRACT)
+            .then(code => {
+                if (code === '0x' || code === '') {
+                    setError('Contract not found at this address');
+                    return;
+                }
+                setContract(contractInstance);
+            })
+            .catch(err => {
+                console.error('Error checking contract:', err);
+                setError('Failed to verify contract');
+            });
+    }, []);
 
-    const { data: hardCap, isLoading: hardCapLoading } = useReadContract({
-        abi: PRESALE_ABI,
-        address: PRESALE_CONTRACT,
-        functionName: "hardCap",
-    });
+    const fetchCaps = async () => {
+        if (!contract) return;
+        
+        try {
+            console.log('Fetching currentCap...');
+            const current = await contract.methods.currentCap().call();
+            console.log('Current cap result:', current);
+            
+            console.log('Fetching hardCap...');
+            const hard = await contract.methods.hardCap().call();
+            console.log('Hard cap result:', hard);
+            
+            setCurrentCap(current);
+            setHardCap(hard);
+        } catch (error) {
+            console.error("Detailed error:", error);
+            setError(error.message);
+        }
+    };
+
+    useEffect(() => {
+        if (contract) {
+            fetchCaps();
+        }
+    }, [contract]);
 
     const progress = currentCap && hardCap && hardCap > 0
         ? Math.min((Number(currentCap) / Number(hardCap)) * 100, 100)
         : 0;
 
-    
-
     return (
-
         <section id="presale" className="py-20 bg-white text-center">
             <div className="flex flex-col gap-[70px] mx-auto ">
+                {error && (
+                    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                        <strong className="font-bold">Error: </strong>
+                        <span className="block sm:inline">{error}</span>
+                    </div>
+                )}
 
                 {/* ICO Chart & Details Section */}
                 <div className="flex flex-col custom:flex-row items-center bg-[#ffffff80] rounded-[40px] gap-[70px] justify-between py-16 px-10 shadow-2xl">
@@ -71,16 +98,14 @@ const Presale = () => {
                         {/* Progress bar */}
                         <div>
                             <ProgressBar
-                                progress={currentCapLoading || hardCapLoading ? 0 : progress}
+                                progress={progress}
                                 className="mb"
                             />
                             <p className="text-gray-700 mt-2">
                                 Tokens Sold:{" "}
                                 <span className="font-bold">
-                                    {currentCapLoading || !currentCap
-                                        ? "Loading..."
-                                        : (Number(currentCap) / 1e18).toLocaleString()}{" "}
-                                    / {(hardCap ? Number(hardCap) / 1e18 : 0).toLocaleString()} IVAC
+                                    {currentCap ? (Number(currentCap) / 1000000000000000000).toLocaleString() : "Loading..."} /{" "}
+                                    {hardCap ? (Number(hardCap) / 1000000000000000000).toLocaleString() : "Loading..."} IVAC
                                 </span>
                             </p>
                         </div>
